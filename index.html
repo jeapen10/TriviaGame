@@ -4,41 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Trivia Game</title>
+	<title>Trivia Game</title>
+	<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 </head>
 
 <body>
+<div class ="main-container">
     <header>
-        <img src="assets/images/nbatrivia.jpg">
-    </header>
+        <img src="assets/images/nbatrivia.jpg" text-align="center">
+	</header>
+	
+	<br>
 
-<div class = "container">
-    <h1>Welcome to the NBA Trivia Game!</h1>
-		
-    <button class = "btn btn-primary" id = "startButton">Start Game</button>
-    <div class="timer"></div>
-		<div class="question"></div>
-		<div class="answers">
-			<div>
-				<button class="choices" id="buttonA"><h4>a</h4></button>
-			</div>
-			<div>
-				<button class="choices" id="buttonB"><h4>b</h4></button>
-			</div>
-			<div>
-				<button class="choices" id="buttonC"><h4>c</h4></button>
-			</div>
-			<div>
-				<button class="choices" id="buttonD"><h4>d</h4></button>
-			</div>
-		</div>
+	<h1 id="title">Welcome to the NBA Trivia Game!</h1>
+<br>
+<br>
+<div id="wrapper">
+    <button class="btn btn-primary" id="startButton">Start Game</button>
+</div>	  
 </div>
 
 
-<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="assets/javascript/app.js"></script>
 
 </body>

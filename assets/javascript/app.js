@@ -1,162 +1,105 @@
 $(document).ready(function () {
 
-    var index = 0;
-    var timer = {
-        time: 60,
-        reset: function () {
-            this.time = 60;
-            $(".timer").html(this.time + "seconds remaining");
-        },
-        start: function () {
-            counter = setInterval(timer.count, 1000);
-        },
-        stop: function () {
-            clearInterval(counter);
-        },
-        count: function () {
-            timer.time--;
-            console.log(timer.time);
+    $("#startButton").on("click", function() {
+        start();
+    });
 
-            if (timer.time >= 0) {
-                $(".timer").html(timer.time + "seconds remaining");
-            }
-            else {
-                index++;
-                answerWrong();
-                timer.reset();
-                if (index < questionArray.length) {
-                    loadQuestion(index);
-                } else {
-                    $(".answerchoice").hide();
-                    showScore();
-                }
-            }
-        }
-    };
+
+    var questions = [{
+        question: "What franchise leads the league in championships won?",
+        choices: ["Los Angeles Lakers", "Chicago Bulls", "Boston Celtics", "Golden State Warriors"],
+        answer: "Chicago Bulls"
+    }, {
+        question: "Who leads the NBA in total points scored?",
+        choices: ["Michael Jordan", "Kareem Abdul-Jabbar", "Kobe Bryant", "Karl Malone"],
+        answer: "Kareem Abdul-Jabbar"
+    }, {
+        question: "Who is the only player in NBA history to average a triple double in the Finals?",
+        choices: ["Wilt Chamberlain", "Russell Westbrook", "LeBron James", "Michael Jordan"],
+        answer: "LeBron James"
+    }, {
+        question: "Which player has the most championship rings?",
+        choices: ["Bill Russell", "Robert Horry", "Wilt Chamberlain", "Michael Jordan"],
+        answer: "Bill Russell"
+    }, {
+        question: "Whose nickname is The Mailman?",
+        choices: ["John Stockton", "Steve Nash", "Tim Duncan", "Karl Malone"],
+        answer: "Karl Malone"
+    }];
 
     var correctAnswers = 0;
     var incorrectAnswers = 0;
-    var unanswered = 0;
+    var unanswered = questions.length - (this.incorrectAnswers + this.correctAnswers);
+    var counter = 30; 
 
-
-    var q1 = {
-        question: "What franchise leads the league in championships won?",
-        choices: ["Los Angeles Lakers", "Chicago Bulls", "Boston Celtics", "Golden State Warriors"],
-        answer: [2]
-    };
-    var q2 = {
-        question: "Who leads the NBA in total points scored?",
-        choices: ["Michael Jordan", "Kareem Abdul-Jabbar", "Kobe Bryant", "Karl Malone"],
-        answer: [1]
-    };
-    var q3 = {
-        question: "Who is the only player in NBA history to average a triple double in the Finals?",
-        choices: ["Wilt Chamberlain", "Russell Westbrook", "Lebron James", "Michael Jordan"],
-        answer: [2]
-    };
-    var q4 = {
-        question: "Which player has the most championship rings?",
-        choices: ["Bill Russell", "Robert Horry", "Wilt Chamberlain", "Michael Jordan"],
-        answer: [0]
-    };
-    var q5 = {
-        question: "Whose nickname is The Mailman?",
-        choices: ["John Stockton", "Steve Nash", "Tim Duncan", "Karl Malone"],
-        answer: [3]
-    };
-
-    var questionArray = [q1, q2, q3, q4, q5];
-
-    function loadQuestion(questionSelection) {
-        console.log(questionSelection);
-        timer.reset();
-        $(".question").html(questionArray[questionSelection].question);
-        $("#buttonA").text(questionArray[questionSelection].choices[0]).show();
-        $("#buttonB").text(questionArray[questionSelection].choices[1]).show();
-        $("#buttonC").text(questionArray[questionSelection].choices[2]).show();
-        $("#buttonD").text(questionArray[questionSelection].choices[3]).show();
-
-    };
-
-    function setup() {
-        index = 0;
-        $(".question").append('<button id="startButton">Start Game</button>');
-        $("#startButton").on("click", function () {
-            $(this).hide();
-            timer.start();
-            loadQuestion(index);
+    var countdown = function() {
+        counter--;
+        $("#counter").html(counter);
+        if (counter <= 0) {
+            alert("Time is up!");
+            game.done();
+        }
+    }
+    var start = function() {
+        timer = setInterval(countdown, 1000);
+        $("#wrapper").prepend('<h2>Time Remaining: <span id="counter">30</span> Seconds</h2>');
+        $("#startButton").remove();
+        for (var i=0; i<questions.length; i++) {
+            $("#wrapper").append("<h2>" + questions[i].question + "</h2>");
+            for (var j=0; j<questions[i].choices.length; j++) {
+                $("#wrapper").append("<input type='radio' name='question-" + i + "' value='" + questions[i].choices[j] + "'>" + questions[i].choices[j])
+            }
+        }
+    }
+    var done = function() {
+        $.each($('input[name="question-0"]:checked'), function() {
+            if ($(this).val() == questions[0].answer) {
+                correctAnswers++;
+            } else {
+                incorrectAnswers++;
+            }
         });
+        $.each($('input[name="question-1"]:checked'), function() {
+            if ($(this).val() == questions[1].answer) {
+                correctAnswers++;
+            } else {
+                incorrectAnswers++;
+            }
+        });
+        $.each($('input[name="question-2"]:checked'), function() {
+            if ($(this).val() == questions[2].answer) {
+                correctAnswers++;
+            } else {
+                incorrectAnswers++;
+            }
+        });
+        $.each($('input[name="question-3"]:checked'), function() {
+            if ($(this).val() == questions[3].answer) {
+                correctAnswers++;
+            } else {
+                incorrectAnswers++;
+            }
+        });
+        $.each($('input[name="question-4"]:checked'), function() {
+            if ($(this).val() == questions[4].answer) {
+                correctAnswers++;
+            } else {
+                incorrectAnswers++;
+            }
+        });
+
+    this.result();
     }
-
-    function getAnswer() {
-        $(".answerchoice").on("click", function () {
-            console.log("alert", index);
-            index++;
-            console.log("click", index);
-            $(".question").text();
-            $("#buttonA").text();
-            $("#buttonB").text();
-            $("#buttonC").text();
-            $("#buttonD").text();
-            loadQuestion();
-        })
-    }
-
-    function answerRight() {
-        correctAnswers++;
-        alert("Correct!");
-        console.log("correct");
-    }
-
-    function answerWrong() {
-        incorrectAnswers++;
-        alert("Incorrect!");
-        console.log("incorrect");
-    }
-
-    function showScore() {
-        $(".question").empty();
-        $(".question").append("<h2><p>" + correctAnswers + " correct</p></h2>");
-        $(".question").append("<h2><p>" + incorrectAnswers + " incorrect</p></h2>");
-        timer.stop();
-        $(".timer").empty();
-
-    }
-
-    setup();
-    $(".answerchoice").on("click", function () {
-        console.log($(this));
     
-        if (this.id == "buttonA") {
-            var answerChosen = "a";
-        } else if (this.id == "buttonB") {
-            answerChosen = "b";
-        } else if (this.id == "buttonC") {
-            answerChosen = "c";
-        } else if (this.id == "buttonD") {
-            answerChosen = "d";
-        }
-        if ((answerChosen == 'a') && (questionArray[index].answer == [0])) {
-            answerCorrect();
-        } else if (answerChosen == 'a') {
-            answerWrong();
-        }
-        if ((answerChosen == 'b') && (questionArray[index].answer == [1])) {
-            answerCorrect();
-        } else if (answerChosen == 'b') {
-            answerWrong();
-        }
-        if ((answerChosen == 'c') && (questionArray[index].answer == [2])) {
-            answerCorrect();
-        } else if (answerChosen == 'c') {
-            answerWrong();
-        }
-        if ((answerChosen == 'd') && (questionArray[index].answer == [3])) {
-            answerCorrect();
-        } else if (answerChosen == 'd') {
-            answerWrong();
-        }
+    var result = function() {
+        clearInterval(timer);
+        $("#wrapper h2").remove();
 
-    });
+        $("#wrapper").html("<h2>The quiz is done!</h2>");
+        $("#wrapper").append("<h3>Correct answers: " + this.correctAnswers + "</h3>");
+        $("#wrapper").append("<h3>Incorrect answers: " + this.incorrectAnswers + "</h3>");
+        $("#wrapper").append("<h3>Unanswered questions: " + this.unanswered + "</h3>");
+    }
+
 
 });
