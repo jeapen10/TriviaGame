@@ -4,6 +4,9 @@ $(document).ready(function () {
         start();
     });
 
+    $(document).on("click", "#done", function() {
+        done();
+    })
 
     var questions = [{
         question: "What franchise leads the league in championships won?",
@@ -37,6 +40,7 @@ $(document).ready(function () {
         $("#counter").html(counter);
         if (counter <= 0) {
             alert("Time is up!");
+            clearInterval(timer);
             game.done();
         }
     }
@@ -50,6 +54,7 @@ $(document).ready(function () {
                 $("#wrapper").append("<input type='radio' name='question-" + i + "' value='" + questions[i].choices[j] + "'>" + questions[i].choices[j])
             }
         }
+        $("#wrapper").append('<br><button id="done">Submit</button>');
     }
     var done = function() {
         $.each($('input[name="question-0"]:checked'), function() {
